@@ -1,0 +1,15 @@
+numpy
+timm
+opencv-python-headless
+scipy
+torch
+torchvision
+pycocotools
+pytorch-lightning
+torchmetrics
+tqdm
+pandas
+clearml
+hydra-core
+tensordict
+black

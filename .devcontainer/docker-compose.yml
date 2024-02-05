@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  app:
+    image: deform-conv
+    build:
+      context: .
+      dockerfile: Dockerfile
+    shm_size: "10G"
+
+    container_name: deform-conv
+    ipc: host
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+    environment:
+      MMDET_DATASETS: /home/dev/datasets
+
+    volumes:
+      - ../:/workspace
+
+      # Clearml config mounts
+      - ${HOME}/.clearml/cache:/home/dev/.clearml/cache
+      - ${HOME}/clearml.conf:/home/dev/clearml.conf
+
+      # COCO and other datasets
+      - ${HOME}/datasets:/home/dev/datasets
+
+    command: /bin/bash -c "while sleep 1000; do :; done"
+    runtime: nvidia
