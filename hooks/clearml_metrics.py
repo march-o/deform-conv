@@ -1,11 +1,12 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Sequence
 
 from mmengine.dist import master_only
 from mmengine.runner import Runner
 from mmdet.registry import HOOKS
 from mmengine.hooks.logger_hook import LoggerHook
+import pandas as pd
 
 
 @HOOKS.register_module()
@@ -107,3 +108,60 @@ class ClearMLLoggerHook(LoggerHook):
             if t in self.dont_log:
                 continue
             self.task_logger.report_scalar(t, "train", val, runner.iter + 1)
+
+    def after_val_epoch(
+        self, runner, metrics: Optional[Dict[str, float]] = None
+    ) -> None:
+        """All subclasses should override this method, if they need any
+        operations after each validation epoch.
+
+        Args:
+            runner (Runner): The runner of the validation process.
+            metrics (Dict[str, float], optional): Evaluation results of all
+                metrics on validation dataset. The keys are the names of the
+                metrics, and the values are corresponding results.
+        """
+        tag, log_str = runner.log_processor.get_log_after_epoch(
+            runner, len(runner.val_dataloader), "val"
+        )
+
+        for t, val in tag.items():
+            if t in self.dont_log:
+                continue
+            self.task_logger.report_scalar(t, "valid", val, runner.epoch + 1)
+
+        if self.log_metric_by_epoch:
+            # Accessing the epoch attribute of the runner will trigger
+            # the construction of the train_loop. Therefore, to avoid
+            # triggering the construction of the train_loop during
+            # validation, check before accessing the epoch.
+            if isinstance(runner._train_loop, dict) or runner._train_loop is None:
+                epoch = 0
+            else:
+                epoch = runner.epoch
+            runner.visualizer.add_scalars(tag, step=epoch, file_path=self.json_log_path)
+        else:
+            if isinstance(runner._train_loop, dict) or runner._train_loop is None:
+                iter = 0
+            else:
+                iter = runner.iter
+            runner.visualizer.add_scalars(tag, step=iter, file_path=self.json_log_path)
+
+    def after_test_epoch(self,
+                         runner,
+                         metrics: Optional[Dict[str, float]] = None) -> None:
+        super().after_test_epoch(runner, metrics)
+        """All subclasses should override this method, if they need any
+        operations after each test epoch.
+
+        Args:
+            runner (Runner): The runner of the testing process.
+            metrics (Dict[str, float], optional): Evaluation results of all
+                metrics on test dataset. The keys are the names of the
+                metrics, and the values are corresponding results.
+        """
+        tag, log_str = runner.log_processor.get_log_after_epoch(
+            runner, len(runner.test_dataloader), 'test', with_non_scalar=True)
+        
+        df = pd.DataFrame(tag)
+        self.task_logger.report_table('test', df, iteration=runner.epoch + 1)

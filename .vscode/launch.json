@@ -14,6 +14,26 @@
             "args": [
                 "configs/coco/mask_rcnn_internimage_t_fpn_1x_coco.py"
             ]
+        },
+        {
+            "name": "Test tiny",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "configs/coco/mask_rcnn_internimage_t_fpn_1x_coco.py",
+                "${input:checkpoint}"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "checkpoint",
+            "type": "promptString",
+            "description": "Checkpoint to test",
+            "default": "work_dirs/mask_rcnn_internimage_t_fpn_1x_coco/last_checkpoint"
         }
     ]
 }
