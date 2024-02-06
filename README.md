@@ -28,7 +28,7 @@ mim install mmdet -v
 ```
 ### Install deformable convolution v3 CUDA op
 ```bash
-cd ops_dcnv3 && bash make.sh
+bash ops_dcnv3/install.sh
 ```
 
 ## Download coco2017 dataset (27G)
