@@ -21,7 +21,7 @@ pip install requirements.txt
 pip install -U openmim
 mim install mmengine
 
-mim install "mmcv>=2.0.0" -v
+FORCE_CUDA="1" MMCV_WITH_OPS=1 mim install "mmcv>=2.0.0" -v
 # This can take some time, depending on your cuda version, it might compile from source
 
 mim install mmdet -v
@@ -31,9 +31,9 @@ mim install mmdet -v
 cd ops_dcnv3 && bash make.sh
 ```
 
-## Download coco2017 dataset
+## Download coco2017 dataset (27G)
 ```bash
-python tools/download_dataset.py --save-dir data/coco
+bash data/download.sh
 ```
 
 ## Training with example model mask-rcnn internimage-tiny
