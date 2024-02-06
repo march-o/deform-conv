@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/train.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": [
                 "configs/coco/mask_rcnn_internimage_t_fpn_1x_coco.py"
             ]
@@ -24,7 +24,23 @@
             "justMyCode": false,
             "args": [
                 "configs/coco/mask_rcnn_internimage_t_fpn_1x_coco.py",
-                "${input:checkpoint}"
+                "${input:checkpoint}",
+                
+                "--cfg-options",
+                "test_dataloader.dataset.indices=30"
+            ]
+        },
+        {
+            "name": "Evaluate predictions",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/analyze_results.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "configs/coco/mask_rcnn_internimage_t_fpn_1x_coco.py",
+                "work_dirs/coco_instance/test.bbox.json",
+                "outputs"
             ]
         }
     ],
@@ -33,7 +49,7 @@
             "id": "checkpoint",
             "type": "promptString",
             "description": "Checkpoint to test",
-            "default": "work_dirs/mask_rcnn_internimage_t_fpn_1x_coco/last_checkpoint"
+            "default": "work_dirs/mask_rcnn_internimage_t_fpn_1x_coco/epoch_5.pth"
         }
     ]
 }
