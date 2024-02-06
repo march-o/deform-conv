@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = "CocoDataset"
-data_root = "/home/martins/datasets/coco/"
+data_root = "data/coco/"
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
@@ -20,7 +20,7 @@ backend_args = None
 train_pipeline = [
     dict(type="LoadImageFromFile", backend_args=backend_args),
     dict(type="LoadAnnotations", with_bbox=True, with_mask=True),
-    dict(type="Resize", scale=(1333, 800), keep_ratio=True),
+    dict(type="Resize", scale=(700, 400), keep_ratio=True),
     dict(type="RandomFlip", prob=0.5),
     dict(type="PackDetInputs"),
 ]
@@ -36,7 +36,7 @@ test_pipeline = [
 ]
 train_dataloader = dict(
     batch_size=2,
-    num_workers=2,
+    num_workers=8,
     persistent_workers=True,
     sampler=dict(type="DefaultSampler", shuffle=True),
     batch_sampler=dict(type="AspectRatioBatchSampler"),
@@ -51,8 +51,8 @@ train_dataloader = dict(
     ),
 )
 val_dataloader = dict(
-    batch_size=1,
-    num_workers=2,
+    batch_size=4,
+    num_workers=8,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type="DefaultSampler", shuffle=False),

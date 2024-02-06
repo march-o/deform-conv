@@ -58,10 +58,9 @@ custom_hooks = [
     dict(
         type="ClearMLLoggerHook",
         init_kwargs=dict(
-            project_name="deform-conv",
-            task_name="mask-rcnn-internimage-t-fpn"
+            project_name="deform-conv", task_name="mask-rcnn-internimage-t-fpn"
         ),
         interval=5,
-        by_epoch=False
+        by_epoch=False,
     )
 ]
