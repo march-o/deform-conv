@@ -5,11 +5,12 @@
 # --------------------------------------------------------
 _base_ = [
     "../_base_/models/mask_rcnn_r50_fpn.py",
-    "../_base_/datasets/coco_instance.py",
+    "../data/coco_small.py",
     "../_base_/schedules/schedule_1x.py",
-    "../_base_/default_runtime.py",
+    "../runtime.py",
 ]
 default_scope = "mmdet"
+
 # pretrained = (
 #     "https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_t_1k_224.pth"
 # )
@@ -46,21 +47,10 @@ optimizer = dict(
     paramwise_cfg=dict(num_layers=30, layer_decay_rate=1.0, depths=[4, 4, 18, 4]),
 )
 optimizer_config = dict(grad_clip=None)
-# fp16 = dict(loss_scale=dict(init_scale=512))
+fp16 = dict(loss_scale=dict(init_scale=512))
 evaluation = dict(save_best="auto")
 checkpoint_config = dict(
     interval=1,
     max_keep_ckpts=3,
     save_last=True,
 )
-
-custom_hooks = [
-    dict(
-        type="ClearMLLoggerHook",
-        init_kwargs=dict(
-            project_name="deform-conv/eval", task_name="mask-rcnn-internimage-t-fpn"
-        ),
-        interval=5,
-        by_epoch=False,
-    )
-]
