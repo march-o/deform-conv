@@ -33,6 +33,7 @@ bash ops_dcnv3/install.sh
 
 ## Download coco2017 dataset (27G)
 ```bash
+sudo apt install unzip
 bash data/download.sh
 ```
 
