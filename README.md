@@ -14,7 +14,7 @@ conda activate deform-conv
 ```
 ### Base requirements
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 ### MMDetection and friends
 ```bash
