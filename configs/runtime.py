@@ -18,7 +18,7 @@ env_cfg = dict(
 vis_backends = [
     dict(
         type="CleamlBackend",
-        init_kwargs=dict(project_name="deform-conv", task_name="experiment"),
+        init_kwargs=dict(project_name="deform-conv", task_name="baseline"),
     )
 ]
 visualizer = dict(

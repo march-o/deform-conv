@@ -5,15 +5,16 @@
 # --------------------------------------------------------
 _base_ = [
     "../_base_/models/mask_rcnn_r50_fpn.py",
-    "../data/coco_small.py",
+    "../_base_/datasets/coco_instance.py",
     "../_base_/schedules/schedule_1x.py",
-    "../runtime.py",
+    "../runtime.py"
 ]
 default_scope = "mmdet"
 
 # pretrained = (
 #     "https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_t_1k_224.pth"
 # )
+# pretrained = 'mask_rcnn_internimage_t_fpn_1x_coco.pth'
 model = dict(
     backbone=dict(
         _delete_=True,
@@ -37,7 +38,7 @@ model = dict(
     ),
 )
 # By default, models are trained on 8 GPUs with 2 images per GPU
-data = dict(samples_per_gpu=2)
+# data = dict(samples_per_gpu=2)
 optimizer = dict(
     _delete_=True,
     type="AdamW",

@@ -14,7 +14,7 @@ conda activate deform-conv
 ```
 ### Base requirements
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 ### MMDetection and friends
 ```bash
@@ -34,6 +34,8 @@ bash ops_dcnv3/install.sh
 ## Download coco2017 dataset (27G)
 ```bash
 sudo apt install unzip
+# Or install from your distro's package manager
+
 bash data/download.sh
 ```
 

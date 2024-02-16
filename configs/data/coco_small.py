@@ -22,8 +22,8 @@ test_pipeline = [
     ),
 ]
 train_dataloader = dict(
-    batch_size=4,
-    num_workers=8,
+    batch_size=8,
+    num_workers=20,
     persistent_workers=True,
     sampler=dict(type="DefaultSampler", shuffle=True),
     batch_sampler=dict(type="AspectRatioBatchSampler"),
@@ -35,11 +35,12 @@ train_dataloader = dict(
         filter_cfg=dict(filter_empty_gt=True, min_size=32),
         pipeline=train_pipeline,
         backend_args=backend_args,
+        indices=100
     ),
 )
 val_dataloader = dict(
     batch_size=8,
-    num_workers=8,
+    num_workers=20,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type="DefaultSampler", shuffle=False),
@@ -51,6 +52,7 @@ val_dataloader = dict(
         test_mode=True,
         pipeline=test_pipeline,
         backend_args=backend_args,
+        indices=500
     ),
 )
 test_dataloader = val_dataloader
@@ -66,7 +68,7 @@ val_evaluator = dict(
 # inference on test dataset and
 # format the output results for submission.
 test_dataloader = dict(
-    batch_size=2,
+    batch_size=32,
     num_workers=16,
     persistent_workers=True,
     drop_last=False,
@@ -78,12 +80,20 @@ test_dataloader = dict(
         data_prefix=dict(img="test2017/"),
         test_mode=True,
         pipeline=test_pipeline,
+        # indices=500
     ),
 )
+# test_evaluator = dict(
+#     type="CocoMetric",
+#     metric=["bbox", "segm"],
+#     format_only=True,
+#     ann_file=data_root + "annotations/image_info_test-dev2017.json",
+#     outfile_prefix="./work_dirs/coco_instance/test",
+# )
 test_evaluator = dict(
     type="CocoMetric",
     metric=["bbox", "segm"],
-    format_only=True,
+    format_only=False,
     ann_file=data_root + "annotations/image_info_test-dev2017.json",
-    outfile_prefix="./work_dirs/coco_instance/test",
+    # outfile_prefix="./work_dirs/coco_instance/test",
 )
