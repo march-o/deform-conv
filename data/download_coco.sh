@@ -1,4 +1,3 @@
-cd data
 mkdir coco
 cd coco
 
