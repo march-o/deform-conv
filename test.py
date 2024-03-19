@@ -31,7 +31,8 @@ def parse_args():
     parser.add_argument(
         '--out',
         type=str,
-        help='dump predictions to a pickle file for offline evaluation')
+        help='dump predictions to a pickle file for offline evaluation',
+        default="results.pkl")
     parser.add_argument(
         '--show', action='store_true', help='show prediction results')
     parser.add_argument(
