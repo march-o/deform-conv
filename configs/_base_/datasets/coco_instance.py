@@ -35,8 +35,8 @@ test_pipeline = [
     ),
 ]
 train_dataloader = dict(
-    batch_size=4,
-    num_workers=8,
+    batch_size=2,
+    num_workers=16,
     persistent_workers=True,
     sampler=dict(type="DefaultSampler", shuffle=True),
     batch_sampler=dict(type="AspectRatioBatchSampler"),
@@ -51,8 +51,8 @@ train_dataloader = dict(
     ),
 )
 val_dataloader = dict(
-    batch_size=3,
-    num_workers=8,
+    batch_size=2,
+    num_workers=16,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type="DefaultSampler", shuffle=False),
@@ -80,18 +80,18 @@ test_evaluator = val_evaluator
 # inference on test dataset and
 # format the output results for submission.
 test_dataloader = dict(
-    batch_size=8,
-    num_workers=16,
+    batch_size=2,
+    num_workers=8,
     persistent_workers=True,
     drop_last=False,
     sampler=dict(type="DefaultSampler", shuffle=False),
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file="annotations/image_info_test-dev2017.json",
-        data_prefix=dict(img="test2017/"),
+        ann_file="annotations/instances_val2017.json",
+        data_prefix=dict(img="val2017/"),
         test_mode=True,
-        pipeline=test_pipeline,
+        pipeline=test_pipeline
     ),
 )
 test_evaluator = dict(
