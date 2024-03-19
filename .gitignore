@@ -2,15 +2,19 @@
 outputs/*
 
 # MMdetection
-work_dirs/*
+work_dirs/
+results/
 
-# Coco dataset
-data/coco/*
+# Datasets, but keep download scripts
+data/*
+!data/*.sh
+
+# Some kind of dist test
+.dist_test/
 
 # Tmp files
 *.pkl
 *.pth
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
