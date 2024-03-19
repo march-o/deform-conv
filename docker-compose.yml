@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/user/deform-conv:rw
+      # Read only ssh folder mounts so git commands work
+      - ${HOME}/.ssh:/home/user/.ssh:ro
+      # ClearML
+      - ${HOME}/clearml.conf:/home/user/clearml.conf:ro
+      # Cache
+      - ${HOME}/.cache:/home/user/.cache:rw
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ "gpu" ]
+    working_dir: /home/user/deform-conv
+    shm_size: 12gb
+    
+    # To be able to write to local machine, docker users uid and gid must be the same as the local user
+    # Check the Dockerfile and rebuild if necessary
+    user: user

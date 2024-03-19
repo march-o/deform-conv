@@ -1,15 +1,10 @@
 numpy
 timm
-opencv-python-headless
 scipy
-torch
-torchvision
+opencv-python==4.8.0.74
 pycocotools
-pytorch-lightning
 torchmetrics
 tqdm
-pandas
 clearml
-hydra-core
-tensordict
 black
+ujson
