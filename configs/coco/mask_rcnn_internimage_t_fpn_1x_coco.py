@@ -11,9 +11,9 @@ _base_ = [
 ]
 default_scope = "mmdet"
 
-# pretrained = (
-#     "https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_t_1k_224.pth"
-# )
+pretrained = (
+    "https://huggingface.co/OpenGVLab/InternImage/resolve/main/internimage_t_1k_224.pth"
+)
 # pretrained = 'mask_rcnn_internimage_t_fpn_1x_coco.pth'
 model = dict(
     backbone=dict(
@@ -31,7 +31,7 @@ model = dict(
         post_norm=False,
         with_cp=False,
         out_indices=(0, 1, 2, 3),
-        # init_cfg=dict(type="Pretrained", checkpoint=pretrained),
+        init_cfg=dict(type="Pretrained", checkpoint=pretrained),
     ),
     neck=dict(
         type="FPN", in_channels=[64, 128, 256, 512], out_channels=256, num_outs=5
@@ -39,12 +39,15 @@ model = dict(
 )
 # By default, models are trained on 8 GPUs with 2 images per GPU
 # data = dict(samples_per_gpu=2)
-optimizer = dict(
+optim_wrapper = dict(
     _delete_=True,
-    type="AdamW",
-    lr=0.0001,
-    weight_decay=0.05,
+    type="OptimWrapper",
     constructor="CustomLayerDecayOptimizerConstructor",
+    optimizer=dict(
+        type="AdamW",
+        lr=0.0001,
+        weight_decay=0.05,
+    ),
     paramwise_cfg=dict(num_layers=30, layer_decay_rate=1.0, depths=[4, 4, 18, 4]),
 )
 optimizer_config = dict(grad_clip=None)
